@@ -2,12 +2,11 @@ import { Store } from "@/types/store";
 import Image from "next/image";
 import Link from "next/link";
 
-interface Props {
-  stores: Store[];
-}
-
 async function getStores() {
-  const res = await fetch("http://localhost:3000/store/");
+  const res = await fetch("http://0.0.0.0:3000/store/", {
+    cache: "no-store",
+    headers: { "Cache-Control": "no-cache" },
+  });
   console.log(res);
   if (!res.ok) {
     return [];
@@ -34,6 +33,7 @@ export default async function Home() {
         <div className="py-10 grid text-center lg:mb-0 lg:grid-cols-1 lg:text-left">
           {stores.map((store: Store) => (
             <Link
+              key={store.id}
               href={`/${store.id}`}
               className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30 w-full"
             >
