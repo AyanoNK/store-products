@@ -75,7 +75,7 @@ curl -X GET \
 
 ```bash
 curl -X GET \
-  http://0.0.0.0:3000/product/?store_id=[id]
+  http://0.0.0.0:3000/product/
 ```
 
 ### Listing products of a store endpoint:
@@ -83,18 +83,6 @@ curl -X GET \
 ```bash
 curl -X GET \
   http://0.0.0.0:3000/product/?store_id=[store_id]
-```
-
-### Creating a store
-
-```bash
-curl -X POST \
-  http://localhost:3000/store/ \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "name": "Store name",
-    "address": "Store address"
-  }'
 ```
 
 ### Get a specific store by id
