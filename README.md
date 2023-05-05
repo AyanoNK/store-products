@@ -5,10 +5,11 @@ Store products API and Frontend
 ## Steps to run
 
 This project is made to be run with Docker & Docker Compose.
+
 If you have not installed Docker, please follow the instructions [here](https://docs.docker.com/engine/install/).
+
 If you have not installed Docker Compose, please follow the instructions [here](https://docs.docker.com/compose/install/).
 
-Once you have
 Once you have those installed, you can run the project with the following command:
 
 ```bash
