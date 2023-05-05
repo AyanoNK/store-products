@@ -21,6 +21,9 @@ class ProductViewSet(viewsets.ModelViewSet):
         if store_id == "":
             return Response({"detail": "store_id parameter is required"}, status=400)
 
+        if store_id is None:
+            return super().list(request, *args, **kwargs)
+
         store = get_object_or_404(Store, id=store_id)
         products = Product.objects.filter(store=store)
         serializer = ProductSerializer(products, many=True)
@@ -35,10 +38,10 @@ class ProductViewSet(viewsets.ModelViewSet):
     )
     def update_inventory(self, request, pk=None):
         product = get_object_or_404(Product, id=pk)
-        inventory = request.data.get("inventory_quantity", None)
-        if inventory is None:
-            return Response({"detail": "inventory parameter is required"}, status=400)
-        product.inventory = inventory
+        inventory_quantity = request.data.get("inventory_quantity", None)
+        if inventory_quantity is None:
+            return Response({"detail": "inventory_quantity parameter is required"}, status=400)
+        product.inventory_quantity = inventory_quantity
         product.inventory_updated_at = timezone.now()
         product.save()
         serializer = ProductSerializer(product)

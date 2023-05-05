@@ -1,14 +1,29 @@
 services:
   api:
+    restart: always
     build: ./api
     ports:
       - "3000:3000"
     volumes:
       - ./api:/api
     command: python manage.py runserver 0.0.0.0:3000
-  web:
+    networks:
+      - net
+      - api
+
+  frontend:
+    restart: always
     build: ./frontend
     ports:
       - "3001:3001"
     volumes:
       - ./frontend:/frontend
+    networks:
+      - net
+      - frontend
+
+networks:
+  net:
+    driver: bridge
+  frontend:
+  api:

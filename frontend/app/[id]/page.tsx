@@ -13,14 +13,18 @@ interface APIData {
 }
 
 async function getProducts(id: number) {
-  const res = await fetch(`http://0.0.0.0:3000/product/?store_id=${id}`, {
+  const res = await fetch(`http://api:3000/product/?store_id=${id}`, {
     cache: "no-store",
-  });
-
-  if (!res.ok) {
-    return [];
-  }
-  return res.json();
+  })
+    .then((res) => res.json())
+    .catch((e) => {
+      console.error(e);
+      return {
+        store_name: "",
+        products: [],
+      };
+    });
+  return res;
 }
 
 export default async function Page({ params }: Props) {

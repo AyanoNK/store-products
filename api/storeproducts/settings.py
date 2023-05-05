@@ -27,7 +27,7 @@ DEBUG = True
 APPEND_SLASH = True
 
 # this is the host that Docker uses to run application
-ALLOWED_HOSTS = ['0.0.0.0']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'api']
 
 
 # Application definition

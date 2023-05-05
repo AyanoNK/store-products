@@ -1,17 +1,19 @@
 import { Store } from "@/types/store";
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 
 async function getStores() {
-  const res = await fetch("http://0.0.0.0:3000/store/", {
+  const res = await fetch("http://api:3000/store/", {
     cache: "no-store",
-    headers: { "Cache-Control": "no-cache" },
-  });
-  console.log(res);
-  if (!res.ok) {
-    return [];
-  }
-  return res.json();
+  })
+    .then((res) => res.json())
+    .catch((e) => {
+      console.error(e);
+      return [];
+    });
+
+  return res;
 }
 
 export default async function Home() {
@@ -30,24 +32,26 @@ export default async function Home() {
       </div>
       <div className="py-24 w-full">
         <h2 className="text-3xl font-bold text-center">Stores</h2>
-        <div className="py-10 grid text-center lg:mb-0 lg:grid-cols-1 lg:text-left">
-          {stores.map((store: Store) => (
-            <Link
-              key={store.id}
-              href={`/${store.id}`}
-              className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30 w-full"
-            >
-              <h2 className={`mb-3 text-2xl font-semibold`}>
-                {store.name}
-                <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-                  -&gt;
-                </span>
-              </h2>
-              <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-                {store.url}
-              </p>
-            </Link>
-          ))}
+        <div className="py-10 grid lg:mb-0 lg:grid-cols-1">
+          <Suspense fallback={<div>Loading...</div>}>
+            {stores.map((store: Store) => (
+              <Link
+                key={store.id}
+                href={`/${store.id}`}
+                className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30 w-full"
+              >
+                <h2 className={`mb-3 text-2xl font-semibold`}>
+                  {store.name}
+                  <span className=" pl-5 inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+                    -&gt;
+                  </span>
+                </h2>
+                <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
+                  {store.url}
+                </p>
+              </Link>
+            ))}
+          </Suspense>
         </div>
       </div>
     </main>
